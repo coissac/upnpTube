@@ -189,8 +189,19 @@ class Renderer extends Ytcr.Player {
             const rendererUrl = `http://${hostname}:${proxyPort}/${url.pathname}${url.search}`;
 
             // Load and play the URL on the renderer
+
+            const video_metadata = obj.getMetadata(videoId);
+
             const options = { autoplay: true,
-                              contentType: 'audio/mp4' };
+                              contentType: 'audio/mp4',
+                              metadata: {
+                                title: video_metadata.title,
+                                creator: video_metadata.author,
+                                type: video_metadata.type
+                              }
+                            };
+            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            console.log(`[${obj.friendlyName}]: Loading media: ${options}`);
             obj.client.load(rendererUrl, options, function(err, result) {
                 if(err) {
                     console.log(`[${obj.friendlyName}]: Error loading media:`)

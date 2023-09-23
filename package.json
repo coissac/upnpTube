@@ -28,6 +28,7 @@
     "http-proxy": "^1.18.1",
     "node-ssdp": "^4.0.1",
     "upnp-mediarenderer-client": "^1.4.0",
+    "youtube-metadata-from-url": "^1.0.3",
     "yt-cast-receiver": "git+https://git@github.com/mas94uk/yt-cast-receiver.git"
   },
   "bin": {
