@@ -99,23 +99,6 @@ class Renderer extends Ytcr.Player {
         return false;
     }
 
-    getMetadata(videoId) {
-        var metadata = null;
-        console.log("########################################");
-        console.log(`[${this.friendlyName}]: Getting metadata for ${videoId}`);
-        
-        youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
-              console.log(json);
-	          metadata = json;
-        }, function(err){
-	          console.log(err);
-        })
-
-        console.log(metadata);
-        console.log("########################################");
-        return metadata;
-    }
-
     getAudioUrl(videoId, callback) {
         const obj = this;
 
@@ -195,20 +178,18 @@ class Renderer extends Ytcr.Player {
 
             // Load and play the URL on the renderer
 
-            const video_metadata = obj.getMetadata(videoId);
+            youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
 
+                const options = { autoplay: true,
+                    contentType: 'audio/mp4',
+                    metadata: {
+                    title: json.title,
+                    creator: json.author,
+                    type: json.type
+                    }
+                };
 
-            const options = { autoplay: true,
-                              contentType: 'audio/mp4',
-                              metadata: {
-                                title: video_metadata.title,
-                                creator: video_metadata.author,
-                                type: video_metadata.type
-                              }
-                            };
-            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            console.log(`[${obj.friendlyName}]: Loading media: ${options}`);
-            obj.client.load(rendererUrl, options, function(err, result) {
+                obj.client.load(rendererUrl, options, function(err, result) {
                 if(err) {
                     console.log(`[${obj.friendlyName}]: Error loading media:`)
                     console.log(err);
@@ -216,7 +197,17 @@ class Renderer extends Ytcr.Player {
                 else {
                     obj.notifyPlayed();
                 }
-            });
+                });
+
+            }, function(err){
+	          console.log(err);
+            })
+            const video_metadata = obj.getMetadata(videoId);
+
+
+            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            console.log(`[${obj.friendlyName}]: Loading media: ${options}`);
+            
         });
     }
 
