@@ -191,6 +191,8 @@ class Renderer extends Ytcr.Player {
                     }
                 };
 
+                console.log(`[${obj.friendlyName}]: Loading media: ${options.metadata}`)
+
                 obj.client.load(rendererUrl, options, function(err, result) {
                 if(err) {
                     console.log(`[${obj.friendlyName}]: Error loading media:`)
@@ -202,7 +204,19 @@ class Renderer extends Ytcr.Player {
                 });
 
             }, function(err){
-	          console.log(err);
+                const options = { autoplay: true,
+                    contentType: 'audio/mp4'
+                };
+
+                obj.client.load(rendererUrl, options, function(err, result) {
+                if(err) {
+                    console.log(`[${obj.friendlyName}]: Error loading media:`)
+                    console.log(err);
+                }
+                else {
+                    obj.notifyPlayed();
+                }
+                });
             })
             
         });
