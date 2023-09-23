@@ -102,6 +102,7 @@ class Renderer extends Ytcr.Player {
     getMetadata(videoId) {
         var metadata = null;
         console.log("########################################");
+
         
         youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
               console.log(json);
@@ -110,6 +111,8 @@ class Renderer extends Ytcr.Player {
 	          console.log(err);
         })
 
+        console.log(metadata);
+        console.log("########################################");
         return metadata;
     }
 
