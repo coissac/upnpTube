@@ -185,7 +185,9 @@ class Renderer extends Ytcr.Player {
                     metadata: {
                     title: json.title,
                     creator: json.author,
-                    type: json.type
+                    type: json.type,
+                    url: json.thumbnail_url,
+                    protocolInfo: "JPEG_TN"
                     }
                 };
 
