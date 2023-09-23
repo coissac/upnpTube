@@ -202,11 +202,6 @@ class Renderer extends Ytcr.Player {
             }, function(err){
 	          console.log(err);
             })
-            const video_metadata = obj.getMetadata(videoId);
-
-
-            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            console.log(`[${obj.friendlyName}]: Loading media: ${options}`);
             
         });
     }
