@@ -102,7 +102,7 @@ class Renderer extends Ytcr.Player {
     getMetadata(videoId) {
         var metadata = null;
         console.log("########################################");
-
+        console.log(`[${this.friendlyName}]: Getting metadata for ${videoId}`);
         
         youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
               console.log(json);
