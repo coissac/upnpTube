@@ -101,8 +101,10 @@ class Renderer extends Ytcr.Player {
 
     getMetadata(videoId) {
         var metadata = null;
+        console.log("########################################");
         
         youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
+              console.log(json);
 	          metadata = json;
         }, function(err){
 	          console.log(err);
@@ -191,6 +193,7 @@ class Renderer extends Ytcr.Player {
             // Load and play the URL on the renderer
 
             const video_metadata = obj.getMetadata(videoId);
+
 
             const options = { autoplay: true,
                               contentType: 'audio/mp4',
