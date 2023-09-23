@@ -52,7 +52,7 @@ class Renderer extends Ytcr.Player {
             const friendlyName = description.friendlyName;
             const manufacturer = description.manufacturer;
             const modelName = description.modelName;
-            obj.friendlyName = `🔊 ${friendlyName} (${manufacturer} ${modelName})`;
+            obj.friendlyName = `🔊 ${friendlyName}`;
             console.log(`[${obj.friendlyName}]: New renderer created, timeout ${obj.timeout}`);
 
             // TODO Select audio or video according to the capabilities of the renderer
@@ -172,7 +172,7 @@ class Renderer extends Ytcr.Player {
             obj.proxy.listen(proxyPort);
 
             // Create a URL to give to the renderer with the same path and params, but starting http://our-hostname:port
-            const hostname = os.hostname();
+            const hostname = process.env.PROXY_IP || os.hostname();
             const rendererUrl = `http://${hostname}:${proxyPort}/${url.pathname}${url.search}`;
 
             // Load and play the URL on the renderer
