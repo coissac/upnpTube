@@ -3,9 +3,11 @@ FROM alpine:3.17
 RUN apk add --no-cache \
     git \
     npm \
-    yt-dlp
+    py3-pip
 
-RUN git clone https://github.com/mas94uk/upnpTube /tmp/upnpTube \
+RUN python3 -m pip install -U pip setuptools wheel \
+    && python3 -m pip install --force-reinstall https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz \
+    && git clone https://github.com/mas94uk/upnpTube /tmp/upnpTube \
     && cd /tmp/upnpTube \
     && npm ci \
     && npm link
