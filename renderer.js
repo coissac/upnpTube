@@ -1,3 +1,4 @@
+const youtube = require('youtube-metadata-from-url');
 const { Console } = require('console');
 const MediaRendererClient = require('upnp-mediarenderer-client');
 const { exec } = require('child_process');
@@ -98,6 +99,18 @@ class Renderer extends Ytcr.Player {
         return false;
     }
 
+    getMetadata(videoId) {
+        var metadata = null;
+        
+        youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
+	          metadata = json;
+        }, function(err){
+	          console.log(err);
+        })
+
+        return metadata;
+    }
+
     getAudioUrl(videoId, callback) {
         const obj = this;
 
@@ -177,7 +190,7 @@ class Renderer extends Ytcr.Player {
 
             // Load and play the URL on the renderer
             const options = { autoplay: true,
-                                contentType: 'audio/mp4' };
+                              contentType: 'audio/mp4' };
             obj.client.load(rendererUrl, options, function(err, result) {
                 if(err) {
                     console.log(`[${obj.friendlyName}]: Error loading media:`)
