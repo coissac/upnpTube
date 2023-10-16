@@ -188,9 +188,7 @@ class Renderer extends Ytcr.Player {
 
             youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
 
-            console.log(`[${obj.friendlyName}]: media title: ${json.title}`);
-            console.log(`[${obj.friendlyName}]: media metadata: %j`, json);
-
+ 
                 // Stop the existing proxy (if there is one)
                 if(obj.proxy_thumbnail) {
                     obj.proxy_thumbnail.close();
@@ -215,6 +213,8 @@ class Renderer extends Ytcr.Player {
     
                 const thumbnailUrl = `http://${hostname}:${proxyPortThub}/${url_thumbnail.pathname}`;
 
+                console.log(`Media title: ${json.title}`);
+                console.log("Media metadata: %j", json);
                 console.log(`Thumbnail URL : ${thumbnailUrl}`)
 
                 const options = { autoplay: true,
