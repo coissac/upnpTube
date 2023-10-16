@@ -29,7 +29,7 @@ class Renderer extends Ytcr.Player {
 
         console.log("Creating new renderer: " + location);
         this.location = location;
-        this.index = index;
+        this.index = index * 2;
         this.timeout = timeout;
         this.httpServer = null;
         this.refresh();
@@ -180,13 +180,37 @@ class Renderer extends Ytcr.Player {
 
             youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
 
+                // Stop the existing proxy (if there is one)
+                if(obj.proxy_thumbnail) {
+                    obj.proxy_thumbnail.close();
+                }
+
+
+                const url_thumbnail = new URL(json.thumbnail_url);
+
+
+                const proxyPortThub = PROXY_BASE_PORT + obj.index + 1;
+                const proxyOptionsThub = {
+                    target: {
+                        protocol: url_thumbnail.protocol,
+                        host: url_thumbnail.host,
+                        port: url_thumbnail.port || 443
+                    },
+                    changeOrigin: true
+                };
+
+                obj.proxy_thumbnail = httpProxy.createProxyServer(proxyOptionsThub);
+                obj.proxy_thumbnail.listen(proxyPortThub);
+    
+                const thumbnailUrl = `http://${hostname}:${proxyPortThub}/${url_thumbnail.pathname}${url_thumbnail.search}`;
+
                 const options = { autoplay: true,
                     contentType: 'audio/mp4',
                     metadata: {
                     title: json.title,
                     creator: json.author,
                     type: json.type,
-                    url: json.thumbnail_url,
+                    url: thumbnailUrl,
                     protocolInfo: "JPEG_TN"
                     }
                 };
