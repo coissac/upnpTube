@@ -202,7 +202,9 @@ class Renderer extends Ytcr.Player {
                 obj.proxy_thumbnail = httpProxy.createProxyServer(proxyOptionsThub);
                 obj.proxy_thumbnail.listen(proxyPortThub);
     
-                const thumbnailUrl = `http://${hostname}:${proxyPortThub}/${url_thumbnail.pathname}${url_thumbnail.search}`;
+                const thumbnailUrl = `http://${hostname}:${proxyPortThub}/${url_thumbnail.pathname}`;
+
+                console.log(`Thumbnail URL : ${thumbnailUrl}`)
 
                 const options = { autoplay: true,
                     contentType: 'audio/mp4',
