@@ -235,12 +235,13 @@ class Renderer extends Ytcr.Player {
                 };
 
 
-
-                obj.client.load(rendererUrl, options).then(function(result) {
-                    obj.notifyPlayed();
-                }, function(err){
-                    console.log(`[${obj.friendlyName}]: Error loading media:`)
-                    console.log(err);
+                obj.client.stop().then(function() {
+                    obj.client.load(rendererUrl, options).then(function(result) {
+                        obj.notifyPlayed();
+                    }, function(err){
+                        console.log(`[${obj.friendlyName}]: Error loading media:`)
+                        console.log(err);
+                    })
                 });
 
             }, function(err){
@@ -249,13 +250,14 @@ class Renderer extends Ytcr.Player {
                     contentType: 'audio/mp4'
                 };
 
-                obj.client.load(rendererUrl, options).then(
-                    function(result) {
+                obj.client.stop().then(function() {
+                    obj.client.load(rendererUrl, options).then(function(result) {
                         obj.notifyPlayed();
                     }, function(err){
                         console.log(`[${obj.friendlyName}]: Error loading media:`)
                         console.log(err);
-                    });
+                    })
+                });
             })
             
         });
