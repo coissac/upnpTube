@@ -201,6 +201,17 @@ class Renderer extends Ytcr.Player {
                     changeOrigin: true
                 };
 
+                // Media metadata: {"title":"Natalie Merchant: NPR Music Tiny Desk Concert",
+                //                  "author_name":"NPR Music",
+                //                  "author_url":"https://www.youtube.com/@nprmusic",
+                //                  "type":"video","height":113,"width":200,"version":"1.0",
+                //                  "provider_name":"YouTube",
+                //                  "provider_url":"https://www.youtube.com/",
+                //                  "thumbnail_height":360,"thumbnail_width":480,
+                //                  "thumbnail_url":"https://i.ytimg.com/vi/iOdsAE8Mq7I/hqdefault.jpg",
+                //                  "html":"<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/iOdsAE8Mq7I?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen title=\"Natalie Merchant: NPR Music Tiny Desk Concert\"></iframe>"}
+
+
                 obj.proxy_thumbnail = httpProxy.createProxyServer(proxyOptionsThub);
                 obj.proxy_thumbnail.listen(proxyPortThub);
     
@@ -216,37 +227,35 @@ class Renderer extends Ytcr.Player {
                     metadata: {
                     title: json.title,
                     creator: json.author,
-                    type: json.type,
+                    artist: json.author,
+                    album: json.title,
+                    type: 'audio',
                     albumArtURI: thumbnailUrl,
                     }
                 };
 
-                console.log(`[${obj.friendlyName}]: Loading media: ${options.metadata}`)
 
-                obj.client.load(rendererUrl, options, function(err, result) {
-                if(err) {
+
+                obj.client.load(rendererUrl, options).then(function(result) {
+                    obj.notifyPlayed();
+                }, function(err){
                     console.log(`[${obj.friendlyName}]: Error loading media:`)
                     console.log(err);
-                }
-                else {
-                    obj.notifyPlayed();
-                }
                 });
 
             }, function(err){
-                const options = { autoplay: true,
+                const options = { 
+                    autoplay: true,
                     contentType: 'audio/mp4'
                 };
 
-                obj.client.load(rendererUrl, options, function(err, result) {
-                if(err) {
-                    console.log(`[${obj.friendlyName}]: Error loading media:`)
-                    console.log(err);
-                }
-                else {
-                    obj.notifyPlayed();
-                }
-                });
+                obj.client.load(rendererUrl, options).then(
+                    function(result) {
+                        obj.notifyPlayed();
+                    }, function(err){
+                        console.log(`[${obj.friendlyName}]: Error loading media:`)
+                        console.log(err);
+                    });
             })
             
         });
