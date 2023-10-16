@@ -1,12 +1,15 @@
 const youtube = require('youtube-metadata-from-url');
 const { Console } = require('console');
-const MediaRendererClient = require('upnp-mediarenderer-client');
+// const MediaRendererClient = require('upnp-mediarenderer-client');
+const upnp = require('upnp-client');
 const { exec } = require('child_process');
 const os = require('os');
 const httpProxy = require('http-proxy');
 
 // TODO: Ideally the author will accept the pull request and re-publish. Otherwise tie it to my fork.
 const Ytcr = require('yt-cast-receiver');
+const MediaRendererClient = require('upnp-mediarenderer-client');
+const { UpnpMediaRendererClient } = require('upnp-client-ts');
 
 // Use ports 3000, 3001, 3002 etc for successive YTCRs
 const YTCR_BASE_PORT = 3000;
@@ -35,7 +38,7 @@ class Renderer extends Ytcr.Player {
         this.refresh();
 
         // Instantiate the mediarender client
-        this.client = new MediaRendererClient(location);
+        this.client = new UpnpMediaRendererClient(location);
 
         // No errors so far
         this.error = false
