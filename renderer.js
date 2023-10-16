@@ -183,6 +183,8 @@ class Renderer extends Ytcr.Player {
 
             youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
 
+            console.log(`[${obj.friendlyName}]: media metadata: ${json}`)
+            
                 // Stop the existing proxy (if there is one)
                 if(obj.proxy_thumbnail) {
                     obj.proxy_thumbnail.close();
