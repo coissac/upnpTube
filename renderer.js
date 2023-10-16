@@ -17,6 +17,11 @@ const YTCR_BASE_PORT = 3000;
 // Use port 800n for the HTTPS->HTTP proxying of the media
 const PROXY_BASE_PORT = 8000;
 
+const dlnaContentFeatures =
+    `${upnp.dlnaHelpers.getDlnaSeekModeFeature('range')};` +
+    `${upnp.dlnaHelpers.getDlnaTranscodeFeature(false)};` +
+    `${upnp.dlnaHelpers.defaultFlags.DLNA_STREAMING_TIME_BASED_FLAGS}`;
+
 // TODO Does this clean up nicely? YTCR instance disappear from the menu in the youtube app? Port freed etc?
 
 /**
@@ -183,6 +188,7 @@ class Renderer extends Ytcr.Player {
 
             youtube.metadata(`https://youtu.be/${videoId}`).then(function(json) {
 
+            console.log(`[${obj.friendlyName}]: media title: ${json.title}`);
             console.log(`[${obj.friendlyName}]: media metadata: %j`, json);
 
                 // Stop the existing proxy (if there is one)
@@ -213,6 +219,7 @@ class Renderer extends Ytcr.Player {
 
                 const options = { autoplay: true,
                     contentType: 'audio/mp4',
+                    dlnaFeatures: dlnaContentFeatures,
                     metadata: {
                     title: json.title,
                     creator: json.author,
