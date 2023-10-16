@@ -212,8 +212,7 @@ class Renderer extends Ytcr.Player {
                     title: json.title,
                     creator: json.author,
                     type: json.type,
-                    url: thumbnailUrl,
-                    protocolInfo: "JPEG_TN"
+                    albumArtURI: thumbnailUrl,
                     }
                 };
 
