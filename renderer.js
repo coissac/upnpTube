@@ -1,6 +1,5 @@
 const youtube = require('youtube-metadata-from-url');
 const { Console } = require('console');
-// const MediaRendererClient = require('upnp-mediarenderer-client');
 const upnp = require('upnp-client-ts');
 const { exec } = require('child_process');
 const os = require('os');
@@ -8,8 +7,6 @@ const httpProxy = require('http-proxy');
 
 // TODO: Ideally the author will accept the pull request and re-publish. Otherwise tie it to my fork.
 const Ytcr = require('yt-cast-receiver');
-//const MediaRendererClient = require('upnp-mediarenderer-client');
-//const { UpnpMediaRendererClient } = require('upnp-client-ts');
 
 // Use ports 3000, 3001, 3002 etc for successive YTCRs
 const YTCR_BASE_PORT = 3000;
@@ -50,12 +47,8 @@ class Renderer extends Ytcr.Player {
 
         // Get device details
         const obj = this;
-        this.client.getDeviceDescription(function(err, description) {
-            if (err) {
-                console.log("Failed to get device description from " + obj.location);
-                return;
-            }
-
+        this.client.getDeviceDescription().then(function(description) {
+           
             // Create a friendly string from the above, which we will name the YouTube cast receiver
             // e.g. "Living Room (Pure Jongo A2)"
             const friendlyName = description.friendlyName;
